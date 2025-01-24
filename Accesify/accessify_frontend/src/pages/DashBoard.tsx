@@ -1,9 +1,16 @@
-import React from "react";
-import { useState } from "react";
-const DashBoard = () => {
+import React, { useState } from "react";
+import { FileCog, Trash, Forward } from "lucide-react";
+import Modal from "../components/DashbaordComponent/Modal";
+
+const DashBoard: React.FC = () => {
   const [link, setLink] = useState<string>("");
   const [isValidLink, setIsValidLink] = useState<boolean | null>(null);
   const [isDragging, setIsDragging] = useState<boolean>(false);
+
+  // for the modal
+  const [isSettingsModalOpen, setSettingsModalOpen] = useState<boolean>(false);
+  const [isDeleteModalOpen, setDeleteModalOpen] = useState<boolean>(false);
+  const [isForwardModalOpen, setForwardModalOpen] = useState<boolean>(false);
 
   const handleLinkChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setLink(e.target.value);
@@ -33,17 +40,18 @@ const DashBoard = () => {
       // Handle file upload logic here
     }
   };
+
   return (
-    <div className="relative  h-screen w-screen text-white">
-      {/* Overlay */}
-      {/* <div className="absolute inset-0 bg-white opacity-5 z-10" /> */}
+    <div className="relative w-screen text-white lg:w-[100vw] pb-24">
+      {/* Background overlay */}
+      <div className="absolute inset-0 bg-white opacity-5" />
 
       {/* Content */}
-      <div className="relative z-20 p-4">
+      <div className="relative p-1s lg:mr-20 pt-10">
         {/* paste a link or drop a file */}
         <div className="h-screen flex flex-col items-center justify-center p-4">
           {/* Header */}
-          <header className="text-center ">
+          <header className="text-center">
             <h1 className="text-3xl font-bold text-white">File Duplication</h1>
             <p className="text-gray-200 mt-2 mb-3">
               Simplify file duplication & sharing
@@ -59,7 +67,7 @@ const DashBoard = () => {
             onDragLeave={handleDragLeave}
             onDrop={handleDrop}
           >
-            <div className="text-center ">
+            <div className="text-center">
               <svg
                 className="mx-auto h-12 w-12 text-gray-200"
                 fill="none"
@@ -82,13 +90,13 @@ const DashBoard = () => {
           </div>
 
           {/* Paste Link Section */}
-          <div className="w-full  mt-8">
+          <div className="w-full lg:w-[60vw] mt-8">
             <div className="flex items-center border border-gray-300 rounded-lg overflow-hidden">
               <input
                 type="text"
                 value={link}
                 onChange={handleLinkChange}
-                placeholder="Paste Google Drive Link Here"
+                placeholder="Paste Google Drive Link"
                 className="flex-1 px-4 py-2 outline-none bg-transparent"
               />
               <button
@@ -110,8 +118,88 @@ const DashBoard = () => {
               </p>
             )}
           </div>
+
+          {/* the link display */}
+          <div className="mt-10 flex flex-col gap-4 w-full ">
+            <div className="border rounded-md p-2 w-36 text-center capitalize hover:bg-[#0a2f2b]">
+              new collection
+            </div>
+            <div className="w-full bg-black p-3 border border-slate-500 rounded-md ">
+              <div className="flex flex-col gap-1">
+                <div className="flex justify-between">
+                  <span className="font-bold">title:</span>
+                  <span className="mr-20">jobOffer.dir</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="font-bold">original url:</span>
+                  <span className="mr-10">googledrive@lonk.com</span>
+                </div>
+                <div>
+                  <div className="flex justify-between">
+                    <span className="font-bold">duplicate url:</span>
+                    <span className="mr-10">googledrive@lonk.com</span>
+                  </div>
+                  <div className="bg-[#0a2f2b] mt-3 flex items-center justify-center justify-between p-2">
+                    <FileCog
+                      onClick={() => setSettingsModalOpen(true)}
+                      className="cursor-pointer"
+                    />
+                    <Trash
+                      onClick={() => setDeleteModalOpen(true)}
+                      className="cursor-pointer"
+                    />
+                    <Forward
+                      onClick={() => setForwardModalOpen(true)}
+                      className="cursor-pointer"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
+
+      {/* Modals */}
+      <Modal
+        isOpen={isSettingsModalOpen}
+        onClose={() => setSettingsModalOpen(false)}
+      >
+        <h2>File Settings</h2>
+        <p>Here you can configure the settings for the file.</p>
+      </Modal>
+
+      <Modal
+        isOpen={isDeleteModalOpen}
+        onClose={() => setDeleteModalOpen(false)}
+      >
+        <h2>Delete File</h2>
+        <p>Are you sure you want to delete this file?</p>
+        <button
+          onClick={() => {
+            /* Handle delete logic */
+          }}
+          className="bg-red-500 text-white px-4 py-2 rounded"
+        >
+          Delete
+        </button>
+      </Modal>
+
+      <Modal
+        isOpen={isForwardModalOpen}
+        onClose={() => setForwardModalOpen(false)}
+      >
+        <h2>Forward File</h2>
+        <p>Choose where to forward this file.</p>
+        <button
+          onClick={() => {
+            /* Handle forward logic */
+          }}
+          className="bg-blue-500 text-white px-4 py-2 rounded"
+        >
+          Forward
+        </button>
+      </Modal>
     </div>
   );
 };

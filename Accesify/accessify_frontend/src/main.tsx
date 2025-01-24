@@ -4,10 +4,16 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import "./index.css";
 import DashBoardLayout from "./Layouts/DashBoardLayout.tsx";
 import DashBoard from "./pages/DashBoard.tsx";
+import LandingPage from "./pages/LandingPage.tsx";
 
 const router = createBrowserRouter([
   {
     path: "/",
+    index: true,
+    element: <LandingPage />,
+  },
+  {
+    path: "/dashboard",
     element: <DashBoardLayout />,
     children: [
       {

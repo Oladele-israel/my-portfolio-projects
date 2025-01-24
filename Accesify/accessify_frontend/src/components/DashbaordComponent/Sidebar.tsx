@@ -23,8 +23,7 @@ const Sidebar = () => {
   return (
     <>
       {/* mobile side bar */}
-      <div className="fixed bottom-0 w-full h-16 border-t border-slate-500 lg:hidden ">
-        <div className="bg-[#FFFFFF] opacity-5 w-full h-full absolute" />
+      <div className="fixed bottom-0 w-full h-20 border-t border-slate-500 lg:hidden bg-black z-50 ">
         <div className="flex p-4 justify-between">
           {links.map((link) => (
             <a
@@ -38,6 +37,7 @@ const Sidebar = () => {
               }`}
             >
               {link.icon}
+              <p>{link.name}</p>
             </a>
           ))}
         </div>
