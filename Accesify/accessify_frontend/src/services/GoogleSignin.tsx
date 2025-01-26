@@ -15,7 +15,7 @@ const GoogleSignIn = () => {
           const res = await axios.post(
             "http://localhost:5000/auth/google/token",
             { credential: response.credential },
-            { withCredentials: true } // Include cookies in the request
+            { withCredentials: true }
           );
 
           console.log("Backend response:", res.data);
